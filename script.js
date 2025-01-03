@@ -1,6 +1,11 @@
 window.onload = function() {
     fetch('https://0101010kingofcode0101010.github.io/LeakerVietNam/videos.json')
-        .then(response => response.json())
+        .then(response => {
+            if (!response.ok) {
+                throw new Error('Network response was not ok');
+            }
+            return response.json();
+        })
         .then(data => {
             let videosContainer = document.getElementById('videos-container');
             data.forEach(video => {
@@ -24,5 +29,8 @@ window.onload = function() {
                 videosContainer.appendChild(videoElement);
             });
         })
-        .catch(error => console.error('Error loading JSON:', error));
+        .catch(error => {
+            console.error('Error loading JSON:', error);
+            alert("Không thể tải video JSON. Vui lòng kiểm tra lại đường dẫn.");
+        });
 };
