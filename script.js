@@ -1,10 +1,9 @@
 window.onload = function() {
-    fetch('https://github.com/0101010KingofCode0101010/LeakerVietNam/blob/main/videos.txt')  // Đổi thành URL của bạn
+    fetch('videos.txt')  // Đảm bảo videos.txt được đặt trên server hoặc GitHub Pages
         .then(response => response.text())
         .then(data => {
             console.log("Dữ liệu từ videos.txt:", data); // Kiểm tra dữ liệu
             const videos = parseVideos(data);
-            console.log("Danh sách video:", videos); // Kiểm tra danh sách video sau khi phân tích
             displayVideos(videos);
         })
         .catch(error => console.error('Error loading videos:', error));
@@ -26,9 +25,9 @@ function parseVideos(data) {
 }
 
 function displayVideos(videos) {
-    const videoList = document.getElementById('video-list');
+    const videoContainer = document.getElementById('video-container');
     if (videos.length === 0) {
-        videoList.innerHTML = '<p>Không có video nào để hiển thị.</p>';
+        videoContainer.innerHTML = '<p>Không có video nào để hiển thị.</p>';
     }
 
     videos.forEach(video => {
@@ -37,9 +36,11 @@ function displayVideos(videos) {
 
         const thumbnail = document.createElement('img');
         thumbnail.src = video.imgUrl;
+        thumbnail.alt = video.title;
+        thumbnail.classList.add('video-thumbnail');
 
         const title = document.createElement('div');
-        title.classList.add('title');
+        title.classList.add('video-title');
         title.textContent = video.title;
 
         const link = document.createElement('a');
@@ -49,6 +50,6 @@ function displayVideos(videos) {
         link.appendChild(title);
 
         videoItem.appendChild(link);
-        videoList.appendChild(videoItem);
+        videoContainer.appendChild(videoItem);
     });
 }
