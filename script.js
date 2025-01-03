@@ -1,57 +1,28 @@
 window.onload = function() {
-    const url = 'https://api.github.com/repos/0101010KingofCode0101010/LeakerVietNam/contents/videos.txt';
-    fetch(url)
+    fetch('videos.json')
         .then(response => response.json())
         .then(data => {
-            const content = atob(data.content); // Giải mã nội dung base64
-            const videos = parseVideos(content);
-            displayVideos(videos);
+            let videosContainer = document.getElementById('videos-container');
+            data.forEach(video => {
+                let videoElement = document.createElement('div');
+                videoElement.classList.add('video');
+                
+                let thumbnail = document.createElement('img');
+                thumbnail.src = video.thumbnail;
+                videoElement.appendChild(thumbnail);
+                
+                let title = document.createElement('h3');
+                title.textContent = video.title;
+                videoElement.appendChild(title);
+                
+                let link = document.createElement('a');
+                link.href = video.url;
+                link.target = '_blank';
+                link.textContent = 'Watch Video';
+                videoElement.appendChild(link);
+                
+                videosContainer.appendChild(videoElement);
+            });
         })
-        .catch(error => console.error('Error loading videos:', error));
+        .catch(error => console.error('Error loading JSON:', error));
 };
-
-
-function parseVideos(data) {
-    const videoEntries = [];
-    const regex = /\[URL=(.*?)\]\[IMG](.*?)\[\/IMG](.*?)\[\/URL]/g;
-    let match;
-
-    while ((match = regex.exec(data)) !== null) {
-        const url = match[1];
-        const imgUrl = match[2];
-        const title = match[3].trim();
-        videoEntries.push({ url, imgUrl, title });
-    }
-
-    return videoEntries;
-}
-
-function displayVideos(videos) {
-    const videoContainer = document.getElementById('video-container');
-    if (videos.length === 0) {
-        videoContainer.innerHTML = '<p>Không có video nào để hiển thị.</p>';
-    }
-
-    videos.forEach(video => {
-        const videoItem = document.createElement('div');
-        videoItem.classList.add('video-item');
-
-        const thumbnail = document.createElement('img');
-        thumbnail.src = video.imgUrl;
-        thumbnail.alt = video.title;
-        thumbnail.classList.add('video-thumbnail');
-
-        const title = document.createElement('div');
-        title.classList.add('video-title');
-        title.textContent = video.title;
-
-        const link = document.createElement('a');
-        link.href = video.url;
-        link.target = "_blank";
-        link.appendChild(thumbnail);
-        link.appendChild(title);
-
-        videoItem.appendChild(link);
-        videoContainer.appendChild(videoItem);
-    });
-}
