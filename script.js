@@ -1,8 +1,10 @@
 window.onload = function() {
-    fetch('videos.txt')
+    fetch('https://username.github.io/repository/videos.txt')  // Đổi thành URL của bạn
         .then(response => response.text())
         .then(data => {
+            console.log("Dữ liệu từ videos.txt:", data); // Kiểm tra dữ liệu
             const videos = parseVideos(data);
+            console.log("Danh sách video:", videos); // Kiểm tra danh sách video sau khi phân tích
             displayVideos(videos);
         })
         .catch(error => console.error('Error loading videos:', error));
@@ -25,6 +27,10 @@ function parseVideos(data) {
 
 function displayVideos(videos) {
     const videoList = document.getElementById('video-list');
+    if (videos.length === 0) {
+        videoList.innerHTML = '<p>Không có video nào để hiển thị.</p>';
+    }
+
     videos.forEach(video => {
         const videoItem = document.createElement('div');
         videoItem.classList.add('video-item');
