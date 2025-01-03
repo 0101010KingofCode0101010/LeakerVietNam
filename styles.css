@@ -1,61 +1,71 @@
+/* Basic reset */
 * {
     margin: 0;
     padding: 0;
     box-sizing: border-box;
 }
 
+/* Body styles */
 body {
     font-family: Arial, sans-serif;
-    background-color: #121212; /* Màu nền đen */
-    color: #ffd700; /* Màu chữ vàng */
+    background-color: #f9f9f9;
+    color: #333;
+    margin: 0;
+}
+
+/* Header styles */
+.header {
+    background-color: #333;
     padding: 20px;
-}
-
-.container {
-    max-width: 1200px;
-    margin: 0 auto;
     text-align: center;
+    color: white;
 }
 
-h1 {
-    font-size: 2.5em;
-    margin-bottom: 20px;
-    color: #ffd700; /* Màu chữ vàng cho tiêu đề */
+.header h1 {
+    font-size: 2em;
 }
 
+/* Video container styles */
+.video-container {
+    display: flex;
+    flex-wrap: wrap;
+    padding: 20px;
+    justify-content: center;
+}
+
+/* Individual video item styles */
 .video-item {
-    display: inline-block;
     width: 300px;
     margin: 20px;
-    background-color: #333; /* Màu nền của mỗi video item */
+    background-color: white;
     border-radius: 8px;
-    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.3);
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
     overflow: hidden;
-    text-align: left;
+    cursor: pointer;
 }
 
-.video-item img {
-    width: 100%;
-    height: 200px;
-    object-fit: cover;
-}
-
-.video-item .title {
-    font-size: 1.2em;
-    padding: 10px;
-    background-color: #444; /* Màu nền của tiêu đề video */
-    color: #ffd700; /* Màu chữ vàng cho tiêu đề */
-    text-overflow: ellipsis;
-    white-space: nowrap;
-    overflow: hidden;
-    max-width: 100%;
-}
-
-a {
+.video-item a {
     text-decoration: none;
-    color: inherit; /* Giữ màu sắc của văn bản giống với màu mặc định */
+    color: inherit;
 }
 
-a:hover {
-    color: #ffeb3b; /* Thay đổi màu khi hover lên link, vàng sáng hơn */
+.video-thumbnail {
+    width: 100%;
+    height: 180px;
+    object-fit: cover;
+    border-top-left-radius: 8px;
+    border-top-right-radius: 8px;
+}
+
+.video-title {
+    padding: 10px;
+    text-align: center;
+    font-size: 16px;
+    background-color: #f8f8f8;
+    border-bottom-left-radius: 8px;
+    border-bottom-right-radius: 8px;
+}
+
+.video-item:hover .video-title {
+    background-color: #e8e8e8;
 }
