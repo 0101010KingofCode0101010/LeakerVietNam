@@ -1,5 +1,5 @@
 window.onload = function() {
-    fetch('videos.txt')  // Đảm bảo videos.txt được đặt trên server hoặc GitHub Pages
+    fetch('https://raw.githubusercontent.com/0101010KingofCode0101010/LeakerVietNam/main/videos.txt')  // Đảm bảo videos.txt được đặt trên server hoặc GitHub Pages
         .then(response => response.text())
         .then(data => {
             console.log("Dữ liệu từ videos.txt:", data); // Kiểm tra dữ liệu
