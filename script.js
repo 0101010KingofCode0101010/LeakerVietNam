@@ -1,31 +1,48 @@
-fetch('videos.txt')
-    .then(response => response.text())
-    .then(data => {
-        const videoGallery = document.getElementById('videoGallery');
-        const videoEntries = data.trim().split(/[\r\n]+/).filter(line => line);
+window.onload = function() {
+    fetch('videos.txt')
+        .then(response => response.text())
+        .then(data => {
+            const videos = parseVideos(data);
+            displayVideos(videos);
+        })
+        .catch(error => console.error('Error loading videos:', error));
+};
 
-        for (let i = 0; i < videoEntries.length; i += 3) {
-            const urlLine = videoEntries[i];
-            const imgLine = videoEntries[i + 1];
+function parseVideos(data) {
+    const videoEntries = [];
+    const regex = /\[URL=(.*?)\]\[IMG](.*?)\[\/IMG](.*?)\[\/URL]/g;
+    let match;
 
-            const urlMatch = urlLine.match(/URL=(.*?)\]/);
-            const imgMatch = imgLine.match(/IMG](.*?)\[/);
-            const title = imgLine.split(']')[1];
+    while ((match = regex.exec(data)) !== null) {
+        const url = match[1];
+        const imgUrl = match[2];
+        const title = match[3].trim();
+        videoEntries.push({ url, imgUrl, title });
+    }
 
-            if (urlMatch && imgMatch) {
-                const url = urlMatch[1];
-                const thumbnail = imgMatch[1];
+    return videoEntries;
+}
 
-                const videoContainer = document.createElement('div');
-                videoContainer.className = 'video-container';
-                videoContainer.innerHTML = `
-                    <a href="${url}" target="_blank">
-                        <img src="${thumbnail}" alt="Video Thumbnail">
-                        <p>${title.trim()}</p>
-                    </a>
-                `;
-                videoGallery.appendChild(videoContainer);
-            }
-        }
-    })
-    .catch(error => console.error('Error loading video data:', error));
+function displayVideos(videos) {
+    const videoList = document.getElementById('video-list');
+    videos.forEach(video => {
+        const videoItem = document.createElement('div');
+        videoItem.classList.add('video-item');
+
+        const thumbnail = document.createElement('img');
+        thumbnail.src = video.imgUrl;
+
+        const title = document.createElement('div');
+        title.classList.add('title');
+        title.textContent = video.title;
+
+        const link = document.createElement('a');
+        link.href = video.url;
+        link.target = "_blank";
+        link.appendChild(thumbnail);
+        link.appendChild(title);
+
+        videoItem.appendChild(link);
+        videoList.appendChild(videoItem);
+    });
+}
