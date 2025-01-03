@@ -1,5 +1,5 @@
 window.onload = function() {
-    fetch('videos.json')
+    fetch('https://0101010kingofcode0101010.github.io/LeakerVietNam/videos.json')
         .then(response => response.json())
         .then(data => {
             let videosContainer = document.getElementById('videos-container');
