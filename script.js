@@ -1,5 +1,5 @@
 window.onload = function() {
-    fetch('https://username.github.io/repository/videos.txt')  // Đổi thành URL của bạn
+    fetch('https://github.com/0101010KingofCode0101010/LeakerVietNam/blob/main/videos.txt')  // Đổi thành URL của bạn
         .then(response => response.text())
         .then(data => {
             console.log("Dữ liệu từ videos.txt:", data); // Kiểm tra dữ liệu
