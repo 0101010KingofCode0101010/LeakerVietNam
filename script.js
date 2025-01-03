@@ -1,13 +1,15 @@
 window.onload = function() {
-    fetch('https://cors-anywhere.herokuapp.com/https://raw.githubusercontent.com/0101010KingofCode0101010/LeakerVietNam/main/videos.txt')  // Đảm bảo videos.txt được đặt trên server hoặc GitHub Pages
-        .then(response => response.text())
+    const url = 'https://api.github.com/repos/0101010KingofCode0101010/LeakerVietNam/contents/videos.txt';
+    fetch(url)
+        .then(response => response.json())
         .then(data => {
-            console.log("Dữ liệu từ videos.txt:", data); // Kiểm tra dữ liệu
-            const videos = parseVideos(data);
+            const content = atob(data.content); // Giải mã nội dung base64
+            const videos = parseVideos(content);
             displayVideos(videos);
         })
         .catch(error => console.error('Error loading videos:', error));
 };
+
 
 function parseVideos(data) {
     const videoEntries = [];
