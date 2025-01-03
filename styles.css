@@ -6,8 +6,8 @@
 
 body {
     font-family: Arial, sans-serif;
-    background-color: #f4f4f4;
-    color: #333;
+    background-color: #121212; /* Màu nền đen */
+    color: #ffd700; /* Màu chữ vàng */
     padding: 20px;
 }
 
@@ -20,15 +20,16 @@ body {
 h1 {
     font-size: 2.5em;
     margin-bottom: 20px;
+    color: #ffd700; /* Màu chữ vàng cho tiêu đề */
 }
 
 .video-item {
     display: inline-block;
     width: 300px;
     margin: 20px;
-    background-color: #fff;
+    background-color: #333; /* Màu nền của mỗi video item */
     border-radius: 8px;
-    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.3);
     overflow: hidden;
     text-align: left;
 }
@@ -42,9 +43,19 @@ h1 {
 .video-item .title {
     font-size: 1.2em;
     padding: 10px;
-    background-color: #f2f2f2;
+    background-color: #444; /* Màu nền của tiêu đề video */
+    color: #ffd700; /* Màu chữ vàng cho tiêu đề */
     text-overflow: ellipsis;
     white-space: nowrap;
     overflow: hidden;
     max-width: 100%;
+}
+
+a {
+    text-decoration: none;
+    color: inherit; /* Giữ màu sắc của văn bản giống với màu mặc định */
+}
+
+a:hover {
+    color: #ffeb3b; /* Thay đổi màu khi hover lên link, vàng sáng hơn */
 }
