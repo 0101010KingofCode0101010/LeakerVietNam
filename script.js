@@ -1,14 +1,21 @@
 window.onload = function() {
-    const proxyUrl = 'https://cors-anywhere.herokuapp.com/';
-    const targetUrl = 'https://github.com/0101010KingofCode0101010/LeakerVietNam/raw/main/videos.json';
-
-    fetch(proxyUrl + targetUrl)
+    fetch('https://api.github.com/repos/0101010KingofCode0101010/LeakerVietNam/contents/videos.json')
         .then(response => {
             if (!response.ok) {
                 throw new Error('Network response was not ok');
             }
             return response.json();
         })
+        .then(data => {
+            // Kiểm tra dữ liệu trả về
+            if (!data || !data.download_url) {
+                throw new Error('Download URL not found');
+            }
+
+            // Fetch file JSON từ download_url
+            return fetch(data.download_url);
+        })
+        .then(response => response.json())
         .then(data => {
             let videosContainer = document.getElementById('videos-container');
             data.forEach(video => {
