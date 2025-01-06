@@ -1,11 +1,19 @@
 window.onload = function() {
-    fetch('https://github.com/0101010KingofCode0101010/LeakerVietNam/raw/main/videos.json')
+    fetch('https://api.github.com/repos/0101010KingofCode0101010/LeakerVietNam/contents/videos.json')
         .then(response => {
             if (!response.ok) {
                 throw new Error('Network response was not ok');
             }
             return response.json();
         })
+        .then(data => {
+            // Lấy đường dẫn raw file từ API
+            const rawUrl = data[0].download_url; // Dữ liệu trả về từ API có chứa download_url
+
+            // Fetch file JSON từ đường dẫn raw
+            return fetch(rawUrl);
+        })
+        .then(response => response.json())
         .then(data => {
             let videosContainer = document.getElementById('videos-container');
             data.forEach(video => {
