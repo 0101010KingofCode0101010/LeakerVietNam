@@ -1,81 +1,82 @@
-window.onload = function () {
-    // Đường dẫn tới file JSON
-    const jsonUrl = 'https://0101010kingofcode0101010.github.io/LeakerVietNam/videos.json';
+window.onload = function() {
+    // Tải file JSON chứa danh mục và video
+    fetch('https://0101010kingofcode0101010.github.io/LeakerVietNam/videos.json')  // Thay 'path-to-your-json-file.json' bằng đường dẫn đến file JSON của bạn
+        .then(response => {
+            if (!response.ok) {
+                throw new Error('Network response was not ok');
+            }
+            return response.json();
+        })
+        .then(data => {
+            // Lấy container chứa video và navbar
+            let videosContainer = document.getElementById('videos-container');
+            let navbar = document.getElementById('navbar');
 
-    // DOM Elements
-    const videosContainer = document.getElementById('videos-container');
-    const navbar = document.getElementById('navbar');
-    const galleryTitle = document.getElementById('gallery-title');
+            // Duyệt qua các danh mục trong JSON
+            for (let category in data) {
+                // Tạo một phần tử danh mục mới
+                let categoryElement = document.createElement('div');
+                categoryElement.classList.add('category');
+                
+                // Tạo mục navbar cho danh mục
+                let categoryLink = document.createElement('a');
+                categoryLink.href = '#';
+                categoryLink.textContent = category;
+                categoryLink.classList.add('category-link');
+                categoryLink.addEventListener('click', () => {
+                    displayCategory(category);
+                });
+                navbar.appendChild(categoryLink);
 
-    // Hàm tải JSON
-    const fetchVideos = async () => {
-        try {
-            const response = await fetch(jsonUrl);
-            if (!response.ok) throw new Error('Network response was not ok');
-            return await response.json();
-        } catch (error) {
+                // Tạo tiêu đề cho danh mục
+                let categoryTitle = document.createElement('h2');
+                categoryTitle.classList.add('category-title');
+                categoryTitle.textContent = category;
+                categoryElement.appendChild(categoryTitle);
+
+                // Thêm video cho danh mục
+                let videoList = document.createElement('div');
+                videoList.classList.add('video-list');
+                
+                data[category].forEach(video => {
+                    let videoElement = document.createElement('div');
+                    videoElement.classList.add('video');
+                    
+                    let thumbnail = document.createElement('img');
+                    thumbnail.src = video.thumbnail;
+                    thumbnail.alt = video.title;
+                    videoElement.appendChild(thumbnail);
+                    
+                    let title = document.createElement('h3');
+                    title.textContent = video.title;
+                    videoElement.appendChild(title);
+                    
+                    let link = document.createElement('a');
+                    link.href = video.url;
+                    link.target = '_blank';
+                    link.textContent = 'Watch Video';
+                    videoElement.appendChild(link);
+                    
+                    videoList.appendChild(videoElement);
+                });
+                
+                categoryElement.appendChild(videoList);
+                videosContainer.appendChild(categoryElement);
+            }
+
+            // Hàm hiển thị danh mục khi nhấp vào navbar
+            function displayCategory(category) {
+                // Ẩn tất cả danh mục
+                let allCategories = document.querySelectorAll('.category');
+                allCategories.forEach(cat => cat.style.display = 'none');
+
+                // Hiển thị danh mục được chọn
+                let selectedCategory = document.querySelector(`.category-title[textContent="${category}"]`).parentElement;
+                selectedCategory.style.display = 'block';
+            }
+        })
+        .catch(error => {
             console.error('Error loading JSON:', error);
             alert("Không thể tải video JSON. Vui lòng kiểm tra lại đường dẫn.");
-            return null;
-        }
-    };
-
-    // Hàm hiển thị video theo danh mục
-    const loadCategory = (category, data) => {
-        // Cập nhật tiêu đề gallery
-        galleryTitle.textContent = `${category.charAt(0).toUpperCase() + category.slice(1)} Videos`;
-
-        // Xóa các video cũ
-        videosContainer.innerHTML = '';
-
-        // Lấy video theo danh mục
-        const videos = data.categories[category];
-        if (videos && videos.length > 0) {
-            videos.forEach(video => {
-                const videoElement = document.createElement('div');
-                videoElement.classList.add('video');
-
-                const thumbnail = document.createElement('img');
-                thumbnail.src = video.thumbnail;
-                thumbnail.alt = video.title;
-                videoElement.appendChild(thumbnail);
-
-                const title = document.createElement('h3');
-                title.textContent = video.title;
-                videoElement.appendChild(title);
-
-                const link = document.createElement('a');
-                link.href = video.url;
-                link.target = '_blank';
-                link.textContent = 'Watch Video';
-                videoElement.appendChild(link);
-
-                videosContainer.appendChild(videoElement);
-            });
-        } else {
-            videosContainer.innerHTML = '<p>No videos found for this category.</p>';
-        }
-    };
-
-    // Hàm tạo navbar từ danh mục
-    const createNavbar = (categories) => {
-        navbar.innerHTML = ''; // Xóa navbar cũ nếu có
-        Object.keys(categories).forEach(category => {
-            const button = document.createElement('button');
-            button.textContent = category.charAt(0).toUpperCase() + category.slice(1);
-            button.dataset.category = category;
-            button.addEventListener('click', () => loadCategory(category, data));
-            navbar.appendChild(button);
         });
-    };
-
-    // Khởi động
-    let data = null;
-    fetchVideos().then(jsonData => {
-        if (jsonData) {
-            data = jsonData; // Lưu dữ liệu JSON vào biến toàn cục
-            createNavbar(data.categories); // Tạo navbar
-            loadCategory(Object.keys(data.categories)[0], data); // Tải danh mục đầu tiên
-        }
-    });
 };
