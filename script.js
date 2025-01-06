@@ -1,5 +1,5 @@
 window.onload = function() {
-    fetch('https://api.github.com/repos/0101010KingofCode0101010/LeakerVietNam/contents/videos.json')
+    fetch('videos.json')
         .then(response => {
             if (!response.ok) {
                 throw new Error('Network response was not ok');
