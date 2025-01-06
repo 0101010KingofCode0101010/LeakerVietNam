@@ -1,16 +1,4 @@
-window.onload = function() {
-    // Tải file JSON chứa danh mục và video
-    fetch('https://0101010kingofcode0101010.github.io/LeakerVietNam/videos.json')
-        .then(response => {
-            if (!response.ok) {
-                throw new Error('Network response was not ok');
-            }
-            return response.json();
-        })
-        .then(data => {
-            // Lấy container chứa video và navbar
-            let videosContainer = document.getElementById('videos-container');
-            let navbar = document.getElementById('navbar');
+
 
             // Duyệt qua các danh mục trong JSON
             for (let category in data) {
