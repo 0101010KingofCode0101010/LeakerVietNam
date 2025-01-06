@@ -17,7 +17,8 @@ window.onload = function() {
                 // Tạo một phần tử danh mục mới
                 let categoryElement = document.createElement('div');
                 categoryElement.classList.add('category');
-                
+                categoryElement.setAttribute('data-category', category);  // Thêm thuộc tính để dễ dàng tìm kiếm
+
                 // Tạo mục navbar cho danh mục
                 let categoryLink = document.createElement('a');
                 categoryLink.href = '#';
@@ -71,9 +72,13 @@ window.onload = function() {
                 allCategories.forEach(cat => cat.style.display = 'none');
 
                 // Hiển thị danh mục được chọn
-                let selectedCategory = document.querySelector(`.category-title[textContent="${category}"]`).parentElement;
+                let selectedCategory = document.querySelector(`.category[data-category="${category}"]`);
                 selectedCategory.style.display = 'block';
             }
+
+            // Mặc định hiển thị tất cả danh mục khi load trang
+            let allCategories = document.querySelectorAll('.category');
+            allCategories.forEach(cat => cat.style.display = 'block');
         })
         .catch(error => {
             console.error('Error loading JSON:', error);
